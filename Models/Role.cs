@@ -1,8 +1,13 @@
-﻿namespace WebApiJwt.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace WebApiJwt.Models;
 
 public class Role
 {
     public int Id { get; set; }
+
+    [Column(TypeName = "VARCHAR(80)")]
     public string Name { get; set; }
+
     public IList<User> Users { get; set; }
 }
