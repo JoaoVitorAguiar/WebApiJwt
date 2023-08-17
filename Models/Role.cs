@@ -2,6 +2,7 @@
 
 namespace WebApiJwt.Models;
 
+[Table("Roles")]
 public class Role
 {
     public int Id { get; set; }
