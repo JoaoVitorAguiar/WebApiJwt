@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebApiJwt.Data;
+using WebApiJwt.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
+builder.Services.AddTransient<TokenService>();
 
 var app = builder.Build();
 
