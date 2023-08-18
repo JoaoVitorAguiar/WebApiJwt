@@ -5,6 +5,12 @@ namespace WebApiJwt.Models;
 [Table("Roles")]
 public class Role
 {
+    public Role(string name)
+    {
+        Name = name;
+        Users = new List<User>();
+    }
+
     public int Id { get; set; }
 
     [Column(TypeName = "VARCHAR(80)")]

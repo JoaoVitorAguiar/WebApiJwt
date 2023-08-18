@@ -8,6 +8,14 @@ namespace WebApiJwt.Models;
 [Table("Users")]
 public class User
 {
+    public User(string name, string email, string passwordHash)
+    {
+        Name = name;
+        Email = email;
+        PasswordHash = passwordHash;
+        Roles = new List<Role>();
+    }
+
     public int Id { get; set; }
     [Column(TypeName = "VARCHAR(80)")]
     public string Name { get; set; }
