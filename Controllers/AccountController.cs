@@ -18,20 +18,32 @@ public class AccountController : ControllerBase
         [FromServices] DataContext context
         )
     {
-        var user = new User(model.Name,model.Email, model.Password);
-        var role = context.Roles.FirstOrDefault(r => r.Name == "user");
-        user.Roles.Add(role);
-        await context.Users.AddAsync(user);
+        try
+        {
+            var user = new User(model.Name, model.Email, model.Password);
+            var role = context.Roles.FirstOrDefault(r => r.Name == "user");
+            user.Roles.Add(role);
 
-        await context.SaveChangesAsync();
+            await context.Users.AddAsync(user);
+            await context.SaveChangesAsync();
 
-        // Response
-        var response = new UserResponseViewModel
-        { 
-            Name = user.Name, 
-            Email = user.Email
-        };
-        return Ok(response);
+            // Response
+            var response = new UserResponseViewModel
+            {
+                Name = user.Name,
+                Email = user.Email
+            };
+            return Ok(response);
+        }
+        catch(DbUpdateException) 
+        {
+            return StatusCode(400, "Este e-mail já foi cadastrado");
+        }
+        catch (Exception)
+        {
+            return StatusCode(500, "Falha interna no servido");
+        }
+        
     }
 
     // Listar usuários
@@ -41,17 +53,24 @@ public class AccountController : ControllerBase
         [FromServices] DataContext context
         )
     {
-        var responses = new List<UserResponseViewModel>(); 
-        var users = await context.Users.AsNoTracking().ToListAsync();
-        foreach(var user in users)
+        var responses = new List<UserResponseViewModel>();
+        try 
         {
-            responses.Add(new UserResponseViewModel
+            var users = await context.Users.AsNoTracking().ToListAsync();
+            foreach (var user in users)
             {
-                Name = user.Name,
-                Email = user.Email,
-            });
+                responses.Add(new UserResponseViewModel
+                {
+                    Name = user.Name,
+                    Email = user.Email,
+                });
+            }
+            return Ok(responses);
         }
-        return Ok(responses);
+        catch (Exception)
+        {
+            return StatusCode(500, "Falha interna no servido");
+        }
     }
 
     // Login
@@ -66,7 +85,7 @@ public class AccountController : ControllerBase
             x => x.Email == model.Email && x.PasswordHash == model.Password);
         if(user == null)
         {
-            return BadRequest();
+            return StatusCode(401, "Usuário ou senha inválidos");
         }
         var token = tokenService.GenerateToken(user);
         return Ok(token);
@@ -83,9 +102,13 @@ public class AccountController : ControllerBase
         var user = await context.Users.FirstOrDefaultAsync(x => x.Id == id);
         if(user == null)
         {
-            return BadRequest();
+            return StatusCode(401, "Usuário não encontrado inválidos");
         }
         var role = await context.Roles.FirstOrDefaultAsync(x => x.Name == "manager");
+        if(role == null)
+        {
+            return StatusCode(500, "Perfil não encontrado");
+        }
         user.Roles.Add(role);
         var userResponse = new UserResponseViewModel
         {
