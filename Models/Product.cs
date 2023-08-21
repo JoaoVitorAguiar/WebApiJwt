@@ -10,7 +10,7 @@ public class Product
     { 
         Name = name;
         Price = price;
-        Users = new List<User>();
+        Orders = new List<Order>();
     }
 
     public int Id { get; set; }
@@ -20,5 +20,5 @@ public class Product
     public float Price { get; set; }
 
 
-    public IList<User> Users { get; set; }
+    public IList<Order> Orders { get; set; }
 }

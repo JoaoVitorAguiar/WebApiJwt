@@ -14,7 +14,7 @@ public class User
         Email = email;
         PasswordHash = passwordHash;
         Roles = new List<Role>();
-        Products = new List<Product>();
+        Orders = new List<Order>();
     }
 
     public int Id { get; set; }
@@ -28,5 +28,5 @@ public class User
     public string PasswordHash { get; set; }
 
     public IList<Role> Roles { get; set; }
-    public IList<Product> Products { get; set; }
+    public IList<Order> Orders { get; set; }
 }
