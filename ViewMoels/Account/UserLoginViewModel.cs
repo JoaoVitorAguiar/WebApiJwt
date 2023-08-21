@@ -2,11 +2,8 @@
 
 namespace WebApiJwt.ViewMoels.Account;
 
-public class RegisterViewModel
+public class UserLoginViewModel
 {
-    [Required]
-    public string Name { get; set; }
-
     [Required]
     [EmailAddress] // Valida se é e-mail
     public string Email { get; set; }
