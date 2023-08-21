@@ -24,7 +24,14 @@ public class AccountController : ControllerBase
         await context.Users.AddAsync(user);
 
         await context.SaveChangesAsync();
-        return Ok(model);
+
+        // Response
+        var response = new UserResponseViewModel
+        { 
+            Name = user.Name, 
+            Email = user.Email
+        };
+        return Ok(response);
     }
 
     // Listar usuários
