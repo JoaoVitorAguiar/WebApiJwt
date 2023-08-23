@@ -15,8 +15,6 @@ public class OrderManagerController : ControllerBase
         [FromServices] DataContext context
         )
     {
-
         return Ok();
-
     }
 }
