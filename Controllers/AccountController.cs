@@ -12,7 +12,7 @@ namespace WebApiJwt.Controllers;
 public class AccountController : ControllerBase
 {
     // Registrar o usuário
-    [HttpPost("v1/accounts/")]
+    [HttpPost("v1/accounts/register")]
     public async Task<IActionResult> RegisterAsync(
         [FromBody] UserRegisterViewModel model,
         [FromServices] DataContext context
@@ -48,7 +48,7 @@ public class AccountController : ControllerBase
 
     // Listar usuários
     [Authorize(Roles = "admin,manager")]
-    [HttpGet("v1/accounts/")]
+    [HttpGet("v1/accounts/users")]
     public async Task<IActionResult> GetAsync(
         [FromServices] DataContext context
         )
