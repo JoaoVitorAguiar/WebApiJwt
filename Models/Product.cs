@@ -6,6 +6,7 @@ namespace WebApiJwt.Models;
 [Table("Products")]
 public class Product
 {
+    // Preciso remover todos os registros salvos
     public Product(string name, float price)
     { 
         Name = name;
@@ -21,4 +22,5 @@ public class Product
 
 
     public IList<Order> Orders { get; set; }
+    public Category Category { get; set; }
 }
