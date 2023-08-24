@@ -5,6 +5,7 @@ using WebApiJwt;
 using WebApiJwt.Data;
 using WebApiJwt.Services;
 using Microsoft.IdentityModel.Tokens;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,17 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(x =>
+    {
+        // Ignora ciclos subsequentes
+        x.JsonSerializerOptions.ReferenceHandler =
+            ReferenceHandler.IgnoreCycles;
+        // Quando tiver um objeto nulo ele não vai renderizar
+        //x.JsonSerializerOptions.DefaultIgnoreCondition =
+        //    JsonIgnoreCondition.WhenWritingDefault;
+    }
+    );
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
