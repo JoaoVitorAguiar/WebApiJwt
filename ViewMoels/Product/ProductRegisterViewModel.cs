@@ -10,4 +10,6 @@ public class ProductRegisterViewModel
     public string Name { get; set; }
     [Required]
     public float Price { get; set; }
+    [Required]
+    public int CategoryId { get; set; }
 }

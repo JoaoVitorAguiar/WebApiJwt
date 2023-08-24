@@ -28,7 +28,12 @@ public class ProductController : ControllerBase
         [FromServices] DataContext context
         )
     {
-        var product = new Product(model.Name, model.Price);
+        var category = await context.Categories.FirstOrDefaultAsync(x=>x.Id == model.CategoryId);
+        if(category == null)
+        {
+            return BadRequest("Categoria não encontrada");
+        }
+        var product = new Product(model.Name, model.Price, category);
         await context.Products.AddAsync(product);
         await context.SaveChangesAsync();
         return Ok(product);
