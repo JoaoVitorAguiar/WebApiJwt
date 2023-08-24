@@ -21,7 +21,7 @@ public class ProductController : ControllerBase
     }
 
     // Registrar produto
-    [Authorize("admin,manager")]
+    [Authorize(Roles = "admin,manager")]
     [HttpPost("v1/products")]
     public async Task<IActionResult> PostAsync(
         [FromBody] ProductRegisterViewModel model,
@@ -31,6 +31,6 @@ public class ProductController : ControllerBase
         var product = new Product(model.Name, model.Price);
         await context.Products.AddAsync(product);
         await context.SaveChangesAsync();
-        return Ok();
+        return Ok(product);
     }
 }
