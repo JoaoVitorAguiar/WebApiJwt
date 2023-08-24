@@ -11,7 +11,7 @@ namespace WebApiJwt.Controllers;
 public class OrderManagerController : ControllerBase
 {
     
-    [HttpGet("v1/orders")]
+    [HttpGet("v1/manager/orders")]
     public async Task<IActionResult> GetAsync(
         [FromServices] DataContext context
         )
